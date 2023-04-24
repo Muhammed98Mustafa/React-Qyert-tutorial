@@ -1,24 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import { HomePage  } from './component/Homepage';
+import { SuperHeroesPage } from './component/superheroresfetch';
+import { RQSuperHeroesPage } from './component/Superherores';
+import Navbar from './component/navbar';
+import { QueryClient , QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { BrowserRouter ,   Routes, Route } from 'react-router-dom';
+import SingleSuperhero  from './component/singleSuperhero';
+import ParallelQuerypage from './component/ParallelQuerypage';
+import DynamicQueries from './component/DynamicQueriers';
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <>
+    <QueryClientProvider client={queryClient} > 
+   
+
+    <BrowserRouter>
+   <Navbar/>
+   <Routes > 
+   <Route path = "/" element ={<HomePage/>} />
+   <Route path = "/super-heroes" element ={<SuperHeroesPage/>} />
+   <Route path = "/rq-super-heroes" element ={<RQSuperHeroesPage/>} />
+   <Route path = "/rq-super-heroes/:id" element ={<SingleSuperhero/>} />
+   <Route path = "/rq-parallel" element ={<ParallelQuerypage/>} />
+   <Route path = "/rq-Dynamic" element ={<DynamicQueries/>} />
+   </Routes>
+   </BrowserRouter>
+    {/* this one for devtools to show you  */}
+   <ReactQueryDevtools initialIsOpen={false} position='botton-right' />
+   </QueryClientProvider>
+  
+   </>
   );
 }
 

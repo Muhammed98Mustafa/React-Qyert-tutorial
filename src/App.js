@@ -9,6 +9,7 @@ import { BrowserRouter ,   Routes, Route } from 'react-router-dom';
 import SingleSuperhero  from './component/singleSuperhero';
 import ParallelQuerypage from './component/ParallelQuerypage';
 import DynamicQueries from './component/DynamicQueriers';
+import DependentQuery from './component/DependentQuery';
 const queryClient = new QueryClient();
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
    <Route path = "/rq-super-heroes/:id" element ={<SingleSuperhero/>} />
    <Route path = "/rq-parallel" element ={<ParallelQuerypage/>} />
    <Route path = "/rq-Dynamic" element ={<DynamicQueries/>} />
+   <Route path = "/re-dependent" element = {<DependentQuery/>} /> 
    </Routes>
    </BrowserRouter>
     {/* this one for devtools to show you  */}

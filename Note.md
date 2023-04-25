@@ -92,6 +92,56 @@ onFetch: A callback function that will be called when the query starts fetching 
     const {data} = useQuery(....);
  })
 
+12-
  // parallel Query 
+ if you want to fetch multiple data at the same time react query do that for you 
+  
+  examples:    as we see here it alise name for data heroes and friends 
+      const {data: heroes}  = useQuery("heroesfetchheroes" , ()=>{
+        return axios.get("http://localhost:4000/superheroes")
+     });
+     const {data: friends}  = useQuery("firendfetch" , ()=>{
+        return axios.get("http://localhost:4000/friends")
+     });
 
- // dynamic Queries
+ // dynamic Queries 
+   Dynamic Queries on there hand used to fetch data based on dynamic variables such as array parameters for example multiple id users
+    so you need to iterate over the variables then fetch your data 
+   useQueries(
+    ides.map( id => {
+
+    
+      querykey: ["fetchdata" , id] ,
+      queryfn : axios.get(`http://localhost:4000/${id}`) ,
+   } )
+   )
+
+  13- now let come to scenario that you have two fetch and the second fetch depending on the first fetch reasult how to handle that 
+  with react queyr we have some thing called dependent queries 
+  const id =  useQuery("key" , ()=>{
+    return axios.get(`http://localhost:4000/email` )
+  }) 
+
+  const idname  = useQuery("key" , ()=>{
+    return axios.get(`http://localhost:4000/${id}`)
+  } , 
+  enabled: !! id   // so here in the line the second fetch will not applay until the id is retrieved form the first fetch
+  )
+
+
+  14- let say you have some already data in cache and you want to use that data how you can used 
+  باختصار قيمة موجوده بالتخزين كيف فيني استدعيها 
+     import useQueryClient 
+     create instance of useQueryClient  const client = useQueryClient()
+
+    useQuery("key" , 
+      return axois.get("http://localhost/id)
+    ) , {
+      thired argumetn we pass the intital values 
+
+      initialData: ()=> {
+        const hero = client.getQueryData("key of data you want to retrieve");
+        return hero?.find(hero => hero.id === id) you can use filter also as find as here it will give you same results
+
+      }
+    }

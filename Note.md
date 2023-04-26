@@ -93,7 +93,7 @@ onFetch: A callback function that will be called when the query starts fetching 
  })
 
 12-
- // parallel Query 
+  parallel Query 
  if you want to fetch multiple data at the same time react query do that for you 
   
   examples:    as we see here it alise name for data heroes and friends 
@@ -104,7 +104,7 @@ onFetch: A callback function that will be called when the query starts fetching 
         return axios.get("http://localhost:4000/friends")
      });
 
- // dynamic Queries 
+  dynamic Queries 
    Dynamic Queries on there hand used to fetch data based on dynamic variables such as array parameters for example multiple id users
     so you need to iterate over the variables then fetch your data 
    useQueries(
@@ -145,3 +145,18 @@ onFetch: A callback function that will be called when the query starts fetching 
 
       }
     }
+15- paginated Query 
+we can use paginated fetch by sending the the server to fetch limit element and the page also 
+ so each time you click next the page shoudld increse or deacrese if you click previous 
+  page is state  here 
+ const fetch = (pageNumber)=> {
+    return axios.get(`http://localhost:4000/colors?_limit=2&_page=${pageNumber}`)
+}
+ const {data , isLoading , error , refetch} = useQuery(['re-paginated' , page] , ()=>{
+        return fetch(page)
+    } )
+
+15-useInfiniteQuery is a React Query hook that allows you to paginate data from an API endpoint. It works by fetching a certain number of items from the server and then fetching more items as needed when the user scrolls to the end of the list.
+ it take three argument 
+     useInfinteQuery has many new obj such as fetchNextPage , hasNextPage see the doc for more i
+     information.

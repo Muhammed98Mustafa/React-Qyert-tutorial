@@ -13,7 +13,7 @@ const queryClient = useQueryClient();
        }, {
         initialData: ()=> {
             const hero = queryClient.getQueryData("superheroes-query")
-            return hero?.filter(hero=> hero.id === parseInt(id)) // we can also use filter or find both are ok 
+            return hero?.find(hero=> hero.id === parseInt(id)) // we can also use filter or find both are ok 
         }
        }) 
 }

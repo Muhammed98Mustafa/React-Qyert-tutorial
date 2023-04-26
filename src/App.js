@@ -10,6 +10,9 @@ import SingleSuperhero  from './component/singleSuperhero';
 import ParallelQuerypage from './component/ParallelQuerypage';
 import DynamicQueries from './component/DynamicQueriers';
 import DependentQuery from './component/DependentQuery';
+import PaginatedQuery from './component/PaginatedQuery';
+import InfinteQueryPage from './component/infiniteQueryPage';
+
 const queryClient = new QueryClient();
 
 function App() {
@@ -28,6 +31,8 @@ function App() {
    <Route path = "/rq-parallel" element ={<ParallelQuerypage/>} />
    <Route path = "/rq-Dynamic" element ={<DynamicQueries/>} />
    <Route path = "/re-dependent" element = {<DependentQuery/>} /> 
+   <Route path = "/re-paginated" element = {<PaginatedQuery/>} /> 
+   <Route path = '/re-infinte' element  = {<InfinteQueryPage/>} /> 
    </Routes>
    </BrowserRouter>
     {/* this one for devtools to show you  */}

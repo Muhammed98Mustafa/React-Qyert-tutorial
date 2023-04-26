@@ -1,0 +1,10 @@
+.superhero{
+    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+.fetch{
+    margin-top: 20px;
+}

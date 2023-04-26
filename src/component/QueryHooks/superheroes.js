@@ -1,7 +1,15 @@
-import { useQuery } from "react-query"
+import { useQuery  , useQueryClient ,invalidateQueries} from "react-query"
+import { useMutation } from "react-query"
 
 import axios from "axios"
 
+
+const OnSuccess =()=> {
+    const queryClient = useQueryClient();
+
+    queryClient.invalidateQueries('superheroes-query');
+    console.log('hi')
+}
 export const Fetchsuperheroesquery = (onSuccess , onError) => { 
 
    return ( useQuery("superheroes-query", async () => {
@@ -31,8 +39,8 @@ export const Fetchsuperheroesquery = (onSuccess , onError) => {
     //refetchIntervalInBackground : false , // by defauly it false we 
 
     // how to disable automatic fetching of uerquery and we will add refetch 
-     enabled : false ,
-
+     
+        enabled: false ,
 
      onSuccess , 
      onError ,
@@ -48,3 +56,13 @@ export const Fetchsuperheroesquery = (onSuccess , onError) => {
 
     }) )
 }
+
+
+export const Postherodata = () => {
+  
+    return useMutation((hero) => axios.post('http://localhost:4000/superheroes', hero), {
+      onSuccess : OnSuccess,
+       
+      },
+    );
+  };

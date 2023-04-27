@@ -4,12 +4,7 @@ import { useMutation } from "react-query"
 import axios from "axios"
 
 
-const OnSuccess =()=> {
-    const queryClient = useQueryClient();
 
-    queryClient.invalidateQueries('superheroes-query');
-    console.log('hi')
-}
 export const Fetchsuperheroesquery = (onSuccess , onError) => { 
 
    return ( useQuery("superheroes-query", async () => {
@@ -57,12 +52,52 @@ export const Fetchsuperheroesquery = (onSuccess , onError) => {
     }) )
 }
 
-
-export const Postherodata = () => {
+// there is better way to do this called Optimistic updatea 
+/* 
+export const Postherodata = (hero) => {
   
+   
     return useMutation((hero) => axios.post('http://localhost:4000/superheroes', hero), {
-      onSuccess : OnSuccess,
+      onSuccess : (data)=>{
+     queryClient.setQueryData("superheroes-query" , (olddata)=> {
+          console.log("entered")
+          return {
+                  ...olddata,
+           data: [...olddata.data , data.data]
+          }
+      });
+      },
        
       },
     );
+  }; */
+
+  export const Postherodata = (hero) => {
+    const queryClient = useQueryClient();
+  
+    return useMutation((hero) => axios.post('http://localhost:4000/superheroes', hero), {
+      onMutate: async newHero => {
+        await queryClient.cancelQueries('super-heroes')
+        const previousHeroData = queryClient.getQueryData('super-heroes')
+        queryClient.setQueryData('super-heroes', oldQueryData => {
+          return {
+            ...oldQueryData,
+            data: [
+              ...oldQueryData.data,
+              { id: oldQueryData?.data?.length + 1, ...newHero }
+            ]
+          }
+        })
+        return { previousHeroData }
+      },
+      onError: (_err, _newTodo, context) => {
+        queryClient.setQueryData('super-heroes', context.previousHeroData)
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('super-heroes')
+      }
+    });
   };
+  
+
+    

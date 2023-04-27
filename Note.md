@@ -160,3 +160,36 @@ we can use paginated fetch by sending the the server to fetch limit element and 
  it take three argument 
      useInfinteQuery has many new obj such as fetchNextPage , hasNextPage see the doc for more i
      information.
+
+16-how we can sent post request my react query by using mutation 
+const {mutate} = usemutation( data => {
+  axois.post(`https://api.twitter.com` , data)
+}
+)
+ then we use the instance mutate to send data 
+ mutate({password , username})
+
+ 17-after validation how we cam validate the database or to make the data fetch again by using invalidateQueries
+ queryClient is instance of useQueryClient
+
+        const queryClient = useQueryClient();
+  queryClient.invalidateQueries('superheroes-query'); 
+
+but this not the best option we can addded on the query itsalfe by using setQueryData
+export const Postherodata = (hero) => {
+  
+    const queryClient = useQueryClient();
+    return useMutation((hero) => axios.post('http://localhost:4000/superheroes', hero), {
+      onSuccess : (data)=>{
+     queryClient.setQueryData("superheroes-query" , (olddata)=> {
+          console.log("entered")
+          return {
+                  ...olddata,
+           data: [...olddata.data , data.data]
+          }
+      });
+      },
+       
+      },
+    );
+  };
